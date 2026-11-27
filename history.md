@@ -187,7 +187,7 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 - [x] `feat: aba de gráficos contínuos (pace e distância) com comparação de períodos` — commit `50db06f`, `js/charts.js`
 - [x] `feat: aba de corridas oficiais com tempo total e RP` — commit `ebb5ba6`, `js/races.js`
 - [x] Exportar/Importar backup JSON (obrigatório se Opção B) — incluído no commit `9531ed1`
-- [x] `chore: validação de build de produção e ajustes finais de responsividade` — sintaxe, 3 smoke tests, Pages HTTP 200, ajustes mobile
+- [x] `chore: validação de build de produção e ajustes finais de responsividade` — commit `0e6bb63`, sintaxe, 3 smoke tests, Pages HTTP 200 e status `built` com CSS final publicado, ajustes mobile
 
 ### Pendente
 - Nenhum item funcional pendente.
@@ -222,3 +222,5 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 3. Atualizar o checklist da seção 9 com o que foi feito.
 4. Manter este arquivo atualizado a cada marco concluído.
 5. Em caso de dúvida sobre arquitetura, seguir a regra da seção 3 (priorizar Supabase se houver credenciais; senão estático).
+6. Aplicação acessível em https://ambrosiojoao.github.io/Running/ — login `jambrosio` / senha `2454`.
+7. Histórico de commits (8 marcos): `da26bef`, `e0a2d0f`, `10e44d9`, `9531ed1`, `b51deed`, `50db06f`, `ebb5ba6`, `0e6bb63`. Todos com push para `origin/main`.
