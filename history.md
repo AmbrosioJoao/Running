@@ -189,7 +189,7 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 - [x] Exportar/Importar backup JSON (obrigatório se Opção B) — incluído no commit `9531ed1`
 - [x] `chore: validação de build de produção e ajustes finais de responsividade` — commit `0e6bb63`, sintaxe, 3 smoke tests, Pages HTTP 200 e status `built` com CSS final publicado, ajustes mobile
 - [x] `chore: registra status final do deploy no history.md` — commit `5e65b64`
-- [x] `feat: adiciona ícone do Snoopy no topo e favicon PNG transparente` — `assets/snoopy.png`, `favicon.png`, `index.html`, `styles.css`
+- [x] `feat: adiciona ícone do Snoopy no topo e favicon PNG transparente` — commit `95fb12f`, `assets/snoopy.png`, `favicon.png`, `index.html`, `styles.css`
 
 ### Pendente
 - Nenhum item funcional pendente.
@@ -225,5 +225,5 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 4. Manter este arquivo atualizado a cada marco concluído.
 5. Em caso de dúvida sobre arquitetura, seguir a regra da seção 3 (priorizar Supabase se houver credenciais; senão estático).
 6. Aplicação acessível em https://ambrosiojoao.github.io/Running/ — login `jambrosio` / senha `2454`.
-7. Histórico de commits: `da26bef`, `e0a2d0f`, `10e44d9`, `9531ed1`, `b51deed`, `50db06f`, `ebb5ba6`, `0e6bb63`, `5e65b64` e o commit do ícone Snoopy. Todos com push para `origin/main`.
+7. Histórico de commits: `da26bef`, `e0a2d0f`, `10e44d9`, `9531ed1`, `b51deed`, `50db06f`, `ebb5ba6`, `0e6bb63`, `5e65b64`, `95fb12f`. Todos com push para `origin/main`.
 8. Ícones: Snoopy estilizado desenhado com Pillow (script temporário `/tmp/opencode/draw_snoopy.py`) em `assets/snoopy.png` (512 px) e `favicon.png` (128 px), ambos com fundo transparente (RGBA, alpha 0 nas bordas). Usado no cartão de login, no cabeçalho e como favicon.
