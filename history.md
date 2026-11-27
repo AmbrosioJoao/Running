@@ -182,6 +182,7 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 - [x] `chore: setup inicial do projeto e configuração do GitHub Pages` — commit `da26bef`, push feito, Pages ativo
 - [x] `style: estrutura base e tema visual estilo Kindle (E-Ink)` — commit `e0a2d0f`, `index.html` + `styles.css`
 - [x] `feat: tela de login e controle de sessão` — `js/utils.js`, `js/auth.js`, `js/app.js`
+- [x] `feat: gestão global de tênis e cálculo de quilometragem` — `js/store.js`, `js/shoes.js`, `js/backup.js`
 
 ### Pendente
 - [ ] `feat: gestão global de tênis e cálculo de quilometragem`
@@ -197,7 +198,12 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 - Commits e pushes incrementais estão sendo feitos porque o usuário pediu explicitamente a execução de `AGENTS.md` (seção 7 exige commits e push progressivo).
 - Servir localmente com `python3 -m http.server 8765` na pasta do projeto e acessar `http://localhost:8765`.
 - Arquivos JS atuais: `js/utils.js` (datas, pace, distância, escape, SHA-256 puro + WebCrypto), `js/auth.js` (login hash, sessão, logout), `js/app.js` (tabs, modal, toast, bootstrap).
-- Ordem de carregamento dos scripts em `index.html`: utils → auth → app (cada novo módulo deve ser inserido antes de `app.js`).
+- Ordem de carregamento dos scripts em `index.html`: utils → store → auth → backup → shoes → app (cada novo módulo antes de `app.js`).
+- Chave de persistência: `running.data.v1` (`localStorage`), com `{ shoes, workouts, officialRaces }`. Sessão em `sessionStorage` (`running.session`).
+- Quilometragem do tênis soma: corridas + tiros + provas oficiais vinculadas (tiros entram por "desgaste", conforme seção 5).
+- Tênis inicial criado automaticamente: "Tênis padrão" (ativo); usuário pode renomear, criar outros, ativar e arquivar.
+- Exclusão de tênis é bloqueada se houver registros vinculados; use arquivamento nesse caso.
+- Backup JSON: botões no rodapé; exporta `{version, exportedAt, data}` e importa com confirmação de substituição.
 
 ---
 
