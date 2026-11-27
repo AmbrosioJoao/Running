@@ -185,6 +185,7 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 - [x] `feat: gestão global de tênis e cálculo de quilometragem` — `js/store.js`, `js/shoes.js`, `js/backup.js`
 - [x] `feat: aba de calendário dinâmico e registro de treinos` — `js/calendar.js`, grade no `styles.css`
 - [x] `feat: aba de gráficos contínuos (pace e distância) com comparação de períodos` — `js/charts.js`
+- [x] `feat: aba de corridas oficiais com tempo total e RP` — `js/races.js`
 
 ### Pendente
 - [ ] `feat: gestão global de tênis e cálculo de quilometragem`
@@ -211,7 +212,8 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 - Distância de tiros é informada em **km** (campo rotulado "Distância (km)"); pace apenas para corrida; tênis obrigatório na corrida e opcional em tiros; calistenia sem campos extras.
 - Gráficos: SVG puro (sem libs), eixo X categórico pela sequência de corridas (sem gaps), tooltip `<title>` com data exata, eixo Y do pace em `mm:ss`. Períodos (meses e anos) gerados a partir dos registros + mês/ano atuais; múltiplas caixas de seleção; cores distintas apenas nesta aba; legenda por período.
 - Na comparação, curvas são alinhadas por índice (1ª, 2ª, ... corrida de cada período). Tooltip inclui período + data + valor.
-- Testes automatizados temporários (fora do repo): `/tmp/opencode/smoke-dom.js` (login → calendário → treino → indicador → tênis) e `/tmp/opencode/smoke-charts.js` (filtro corrida, eixo tempo, sem gaps, 2 períodos, cores e legenda). Comando: `PATH=/tmp/opencode/node-v26.13.1-linux-x64/bin:$PATH node /tmp/opencode/smoke-dom.js` (ou `smoke-charts.js`) com `python3 -m http.server 8765` ativo. jsdom instalado em `/tmp/opencode/testenv`.
+- Corridas oficiais: lista ordenada por data (mais recente primeiro), tempo total = distância × pace formatado `mm:ss`/`hh:mm:ss`, RP calculado como menor pace entre provas de mesma distância clássica (5/10/21,1/42,2 km). Tênis opcional entra na quilometragem.
+- Testes automatizados temporários (fora do repo): `/tmp/opencode/smoke-dom.js` (login → calendário → treino → indicador → tênis), `/tmp/opencode/smoke-charts.js` (filtro corrida, eixo tempo, sem gaps, 2 períodos, cores e legenda) e `/tmp/opencode/smoke-races.js` (tempo total, RP, formulário, tênis). Comando: `PATH=/tmp/opencode/node-v26.13.1-linux-x64/bin:$PATH node /tmp/opencode/smoke-<nome>.js` com `python3 -m http.server 8765` ativo. jsdom instalado em `/tmp/opencode/testenv`.
 
 ---
 

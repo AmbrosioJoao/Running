@@ -593,6 +593,12 @@ input.mono, .mono-input {
   vertical-align: middle;
 }
 
+.tag-rp {
+  border-color: var(--ink);
+  color: var(--ink);
+  font-weight: 700;
+}
+
 @media (max-width: 700px) {
   .app-view {
     padding: 14px 14px 24px;
