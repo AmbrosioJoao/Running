@@ -9,11 +9,12 @@
 ## 1. Estado Atual do Workspace
 
 - Diretório: `/home/jambrosio/Documents/Projects/Running`
-- Arquivos existentes:
-  - `AGENTS.md` (134 linhas) — especificação completa do projeto
-  - `history.md` — este arquivo
-- **Ainda não há código-fonte, repositório Git local nem remote configurado.**
-- Nenhuma decisão final foi tomada ainda sobre Supabase (Opção A) vs. 100% estático (Opção B).
+- Repositório Git local: sim, branch `main`, remote `origin` → `https://github.com/AmbrosioJoao/Running`
+- GitHub Pages habilitado: **https://ambrosiojoao.github.io/Running/**
+- Ambiente: `git 2.47.3`, `gh 2.46.0` autenticado como `AmbrosioJoao`, `python3 3.13.5`, Firefox disponível.
+- **Node/npm/Não há BaaS:** não há Node.js, npm, bun ou deno instalados; não há credenciais Supabase/Postgres no ambiente.
+- **Decisão arquitetural (2026-11-27): Opção B — 100% estático, zero dependências.** Motivo: ausência de credenciais BaaS e de runtime Node. Stack: HTML + CSS + JavaScript clássico (sem build), persistência em `localStorage` e backup JSON. Gráficos SVG desenhados à mão (sem bibliotecas externas).
+- Convenção de código: scripts clássicos carregados em ordem (sem ES modules) para funcionar também via `file://`; sem comentários no código-fonte.
 
 ---
 
@@ -176,10 +177,12 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 
 ## 9. Checklist de Progresso
 
-### Pendente (estado inicial)
-- [ ] Decidir Opção A (Supabase) ou Opção B (estático + JSON). Verificar credenciais BaaS na máquina.
-- [ ] `chore: setup inicial do projeto e configuração do GitHub Pages`
-  - [ ] `git init`, `.gitignore`, criar repo remoto via `gh`, configurar Pages
+### Concluído
+- [x] Decisão: Opção B (estático + backup JSON)
+- [x] `chore: setup inicial do projeto e configuração do GitHub Pages` — commit `da26bef`, push feito, Pages ativo
+
+### Pendente
+- [ ] `style: estrutura base e tema visual estilo Kindle (E-Ink)`
 - [ ] `style: estrutura base e tema visual estilo Kindle (E-Ink)`
 - [ ] `feat: tela de login e controle de sessão` (calcular hash SHA-256 real de `2454`)
 - [ ] `feat: gestão global de tênis e cálculo de quilometragem`
@@ -190,9 +193,9 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 - [ ] Exportar/Importar backup JSON (obrigatório se Opção B)
 
 ### Convenções a seguir
-- Definir e documentar aqui os comandos de lint/typecheck/test assim que o stack for escolhido.
-- Sempre rodar lint, typecheck e build antes de marcar um item como concluído.
-- Nunca fazer commit sem solicitação explícita do usuário (regra global da sessão); quando solicitado, seguir a ordem de commits acima.
+- Stack sem build: não há lint/typecheck/build npm. Validação = abrir `index.html` no Firefox (perfil temporário) e conferir console/erros; checagem de sintaxe via `python3` não se aplica a JS.
+- Commits e pushes incrementais estão sendo feitos porque o usuário pediu explicitamente a execução de `AGENTS.md` (seção 7 exige commits e push progressivo).
+- Servir localmente com `python3 -m http.server 8000` na pasta do projeto e acessar `http://localhost:8000`.
 
 ---
 
