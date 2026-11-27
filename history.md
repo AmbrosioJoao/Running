@@ -181,27 +181,25 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 - [x] Decisão: Opção B (estático + backup JSON)
 - [x] `chore: setup inicial do projeto e configuração do GitHub Pages` — commit `da26bef`, push feito, Pages ativo
 - [x] `style: estrutura base e tema visual estilo Kindle (E-Ink)` — commit `e0a2d0f`, `index.html` + `styles.css`
-- [x] `feat: tela de login e controle de sessão` — `js/utils.js`, `js/auth.js`, `js/app.js`
-- [x] `feat: gestão global de tênis e cálculo de quilometragem` — `js/store.js`, `js/shoes.js`, `js/backup.js`
-- [x] `feat: aba de calendário dinâmico e registro de treinos` — `js/calendar.js`, grade no `styles.css`
-- [x] `feat: aba de gráficos contínuos (pace e distância) com comparação de períodos` — `js/charts.js`
-- [x] `feat: aba de corridas oficiais com tempo total e RP` — `js/races.js`
+- [x] `feat: tela de login e controle de sessão` — commit `10e44d9`, `js/utils.js`, `js/auth.js`, `js/app.js`
+- [x] `feat: gestão global de tênis e cálculo de quilometragem` — commit `9531ed1`, `js/store.js`, `js/shoes.js`, `js/backup.js`
+- [x] `feat: aba de calendário dinâmico e registro de treinos` — commit `b51deed`, `js/calendar.js`, grade no `styles.css`
+- [x] `feat: aba de gráficos contínuos (pace e distância) com comparação de períodos` — commit `50db06f`, `js/charts.js`
+- [x] `feat: aba de corridas oficiais com tempo total e RP` — commit `ebb5ba6`, `js/races.js`
+- [x] Exportar/Importar backup JSON (obrigatório se Opção B) — incluído no commit `9531ed1`
+- [x] `chore: validação de build de produção e ajustes finais de responsividade` — sintaxe, 3 smoke tests, Pages HTTP 200, ajustes mobile
 
 ### Pendente
-- [ ] `feat: gestão global de tênis e cálculo de quilometragem`
-- [ ] `feat: aba de calendário dinâmico e registro de treinos`
-- [ ] `feat: aba de gráficos contínuos (pace e distância) com comparação de períodos`
-- [ ] `feat: aba de corridas oficiais com tempo total e RP`
-- [ ] `chore: validação de build de produção e ajustes finais de responsividade`
-- [ ] Exportar/Importar backup JSON (obrigatório se Opção B)
+- Nenhum item funcional pendente.
+- Próximos passos opcionais: validar visualmente em dispositivos reais e, se desejar, migrar para Supabase (Opção A).
 
 ### Convenções a seguir
 - Stack sem build/lint configurado. Validação adotada: Node portátil em `/tmp/opencode/node-v26.13.1-linux-x64/bin/node` (fora do repo) executando `node --check js/*.js` e testes pontuais de funções puras.
 - Firefox headless deste ambiente falha com `RenderCompositorSWGL failed mapping default framebuffer` — não usar para smoke tests; usar Node + servidor HTTP local.
 - Commits e pushes incrementais estão sendo feitos porque o usuário pediu explicitamente a execução de `AGENTS.md` (seção 7 exige commits e push progressivo).
 - Servir localmente com `python3 -m http.server 8765` na pasta do projeto e acessar `http://localhost:8765`.
-- Arquivos JS atuais: `js/utils.js` (datas, pace, distância, escape, SHA-256 puro + WebCrypto), `js/auth.js` (login hash, sessão, logout), `js/app.js` (tabs, modal, toast, bootstrap).
-- Ordem de carregamento dos scripts em `index.html`: utils → store → auth → backup → shoes → app (cada novo módulo antes de `app.js`).
+- Arquivos JS atuais: `js/utils.js` (datas, pace, distância, escape, SHA-256 puro + WebCrypto), `js/store.js` (estado/persistência), `js/auth.js` (login hash, sessão, logout), `js/backup.js` (exportar/importar JSON), `js/shoes.js` (gestão de tênis), `js/calendar.js` (calendário/treinos), `js/charts.js` (gráficos SVG), `js/races.js` (provas oficiais), `js/app.js` (tabs, modal, toast, bootstrap).
+- Ordem de carregamento dos scripts em `index.html`: utils → store → auth → backup → shoes → calendar → charts → races → app.
 - Chave de persistência: `running.data.v1` (`localStorage`), com `{ shoes, workouts, officialRaces }`. Sessão em `sessionStorage` (`running.session`).
 - Quilometragem do tênis soma: corridas + tiros + provas oficiais vinculadas (tiros entram por "desgaste", conforme seção 5).
 - Tênis inicial criado automaticamente: "Tênis padrão" (ativo); usuário pode renomear, criar outros, ativar e arquivar.

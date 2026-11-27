@@ -651,4 +651,22 @@ input.mono, .mono-input {
     padding: 0 2px;
     font-size: 0.58rem;
   }
+
+  .card-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .list-item {
+    flex-wrap: wrap;
+  }
+
+  .list-item-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .chart-legend {
+    gap: 10px;
+  }
 }
