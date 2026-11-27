@@ -180,11 +180,10 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 ### Concluído
 - [x] Decisão: Opção B (estático + backup JSON)
 - [x] `chore: setup inicial do projeto e configuração do GitHub Pages` — commit `da26bef`, push feito, Pages ativo
+- [x] `style: estrutura base e tema visual estilo Kindle (E-Ink)` — commit `e0a2d0f`, `index.html` + `styles.css`
+- [x] `feat: tela de login e controle de sessão` — `js/utils.js`, `js/auth.js`, `js/app.js`
 
 ### Pendente
-- [ ] `style: estrutura base e tema visual estilo Kindle (E-Ink)`
-- [ ] `style: estrutura base e tema visual estilo Kindle (E-Ink)`
-- [ ] `feat: tela de login e controle de sessão` (calcular hash SHA-256 real de `2454`)
 - [ ] `feat: gestão global de tênis e cálculo de quilometragem`
 - [ ] `feat: aba de calendário dinâmico e registro de treinos`
 - [ ] `feat: aba de gráficos contínuos (pace e distância) com comparação de períodos`
@@ -193,9 +192,12 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 - [ ] Exportar/Importar backup JSON (obrigatório se Opção B)
 
 ### Convenções a seguir
-- Stack sem build: não há lint/typecheck/build npm. Validação = abrir `index.html` no Firefox (perfil temporário) e conferir console/erros; checagem de sintaxe via `python3` não se aplica a JS.
+- Stack sem build/lint configurado. Validação adotada: Node portátil em `/tmp/opencode/node-v26.13.1-linux-x64/bin/node` (fora do repo) executando `node --check js/*.js` e testes pontuais de funções puras.
+- Firefox headless deste ambiente falha com `RenderCompositorSWGL failed mapping default framebuffer` — não usar para smoke tests; usar Node + servidor HTTP local.
 - Commits e pushes incrementais estão sendo feitos porque o usuário pediu explicitamente a execução de `AGENTS.md` (seção 7 exige commits e push progressivo).
-- Servir localmente com `python3 -m http.server 8000` na pasta do projeto e acessar `http://localhost:8000`.
+- Servir localmente com `python3 -m http.server 8765` na pasta do projeto e acessar `http://localhost:8765`.
+- Arquivos JS atuais: `js/utils.js` (datas, pace, distância, escape, SHA-256 puro + WebCrypto), `js/auth.js` (login hash, sessão, logout), `js/app.js` (tabs, modal, toast, bootstrap).
+- Ordem de carregamento dos scripts em `index.html`: utils → auth → app (cada novo módulo deve ser inserido antes de `app.js`).
 
 ---
 
