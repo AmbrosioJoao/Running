@@ -183,6 +183,7 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 - [x] `style: estrutura base e tema visual estilo Kindle (E-Ink)` — commit `e0a2d0f`, `index.html` + `styles.css`
 - [x] `feat: tela de login e controle de sessão` — `js/utils.js`, `js/auth.js`, `js/app.js`
 - [x] `feat: gestão global de tênis e cálculo de quilometragem` — `js/store.js`, `js/shoes.js`, `js/backup.js`
+- [x] `feat: aba de calendário dinâmico e registro de treinos` — `js/calendar.js`, grade no `styles.css`
 
 ### Pendente
 - [ ] `feat: gestão global de tênis e cálculo de quilometragem`
@@ -204,6 +205,10 @@ Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, 
 - Tênis inicial criado automaticamente: "Tênis padrão" (ativo); usuário pode renomear, criar outros, ativar e arquivar.
 - Exclusão de tênis é bloqueada se houver registros vinculados; use arquivamento nesse caso.
 - Backup JSON: botões no rodapé; exporta `{version, exportedAt, data}` e importa com confirmação de substituição.
+- Calendário: começa sempre no mês atual; botão "anterior" desabilitado no mês atual; dias passados aparecem acinzentados e não clicáveis. Indicadores: `C` corrida, `T` tiros, `F` calistenia.
+- Um dia pode ter vários treinos; modal do dia lista, edita e exclui cada um, com botão "Novo treino".
+- Distância de tiros é informada em **km** (campo rotulado "Distância (km)"); pace apenas para corrida; tênis obrigatório na corrida e opcional em tiros; calistenia sem campos extras.
+- Testes automatizados temporários (fora do repo): `/tmp/opencode/smoke-dom.js` usa jsdom e valida login → calendário → treino → indicador → tênis. Comando: `PATH=/tmp/opencode/node-v26.13.1-linux-x64/bin:$PATH node /tmp/opencode/smoke-dom.js` com `python3 -m http.server 8765` ativo.
 
 ---
 

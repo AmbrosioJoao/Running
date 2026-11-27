@@ -471,6 +471,89 @@ input.mono, .mono-input {
   letter-spacing: 0.06em;
 }
 
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-align: center;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.day {
+  min-height: 76px;
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
+  background: var(--surface-light);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.day:hover:not(:disabled) {
+  background: var(--surface);
+}
+
+.day-empty {
+  background: transparent;
+  border-color: transparent;
+  cursor: default;
+}
+
+.day-past {
+  background: var(--surface);
+  color: var(--muted);
+  cursor: default;
+}
+
+.day.is-today {
+  border: 2px solid var(--ink);
+  padding: 6px;
+}
+
+.day-number {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+}
+
+.day-marks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.day-mark {
+  display: inline-block;
+  padding: 0 4px;
+  border: 1px solid var(--muted);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  line-height: 1.4;
+}
+
+.calendar-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
 @media (max-width: 700px) {
   .app-view {
     padding: 14px 14px 24px;
@@ -499,5 +582,28 @@ input.mono, .mono-input {
 
   .modal-body {
     padding: 14px;
+  }
+
+  .calendar-weekdays,
+  .calendar-grid {
+    gap: 2px;
+  }
+
+  .day {
+    min-height: 54px;
+    padding: 4px;
+  }
+
+  .day.is-today {
+    padding: 3px;
+  }
+
+  .day-number {
+    font-size: 0.7rem;
+  }
+
+  .day-mark {
+    padding: 0 2px;
+    font-size: 0.58rem;
   }
 }
