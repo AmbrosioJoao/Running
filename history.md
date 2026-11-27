@@ -1,0 +1,205 @@
+# history.md — Histórico e Handoff do Projeto Diário de Corrida
+
+> **Propósito:** Este arquivo registrа todo o conteúdo de `AGENTS.md` e o progresso da implementação, para permitir retomar o trabalho em outra sessão caso os tokens acabem.
+>
+> **Atualizado em:** 2026-11-27
+
+---
+
+## 1. Estado Atual do Workspace
+
+- Diretório: `/home/jambrosio/Documents/Projects/Running`
+- Arquivos existentes:
+  - `AGENTS.md` (134 linhas) — especificação completa do projeto
+  - `history.md` — este arquivo
+- **Ainda não há código-fonte, repositório Git local nem remote configurado.**
+- Nenhuma decisão final foi tomada ainda sobre Supabase (Opção A) vs. 100% estático (Opção B).
+
+---
+
+## 2. Visão Geral do Projeto
+
+Aplicação web minimalista de uso pessoal para:
+- Registro de treinos (corrida, tiros e calistenia)
+- Controle de quilometragem por tênis
+- Histórico de corridas oficiais
+- Análise gráfica contínua de evolução
+
+---
+
+## 3. Arquitetura, Stack e Persistência
+
+- **Hospedagem alvo:** GitHub Pages (`https://<usuario>.github.io/<repositorio>`).
+- **Restrição:** GitHub Pages serve apenas arquivos estáticos (HTML/CSS/JS). Não é possível rodar PostgreSQL diretamente nele. Escolher **uma** das opções:
+  - **Opção A (PostgreSQL gerenciado):** Frontend estático (React/Vite ou HTML/CSS/JS) + backend **Supabase** (PostgreSQL + REST API + Auth) via variáveis de ambiente.
+  - **Opção B (100% estático / Zero-backend):** Frontend estático com persistência em `localStorage` / `IndexedDB` + **Exportar/Importar Backup em JSON** obrigatório (evita perda de dados entre dispositivos/limpeza de cache).
+  - **Regra:** priorizar Opção A **se** houver credenciais de BaaS configuradas; caso contrário, usar Opção B.
+- **Automação de datas (crítico):**
+  - Nunca criar meses ou anos manualmente no código.
+  - Calendário e filtros de período devem ser gerados dinamicamente a partir da data atual do sistema (hoje em diante).
+  - Funcionar de forma perpétua, sem manutenção manual.
+  - Não é necessário programar datas anteriores ao dia atual.
+
+---
+
+## 4. Identidade Visual (Estilo Kindle / E-Ink)
+
+Priorizar leitura confortável, simplicidade extrema e estética de tela E-Ink, sem cores chamativas.
+
+### Paleta base (toda a aplicação)
+| Elemento | Cor |
+|---|---|
+| Fundo principal (papel) | `#F6F4EF` |
+| Superfícies/cards | `#EFECE6` ou `#FFFFFF` |
+| Borda sutil | `#D5D1C8` |
+| Texto principal (grafite) | `#1C1C1C` |
+| Texto secundário (cinza) | `#5F5D58` |
+
+- **Sem** gradientes, sombras pesadas ou cores vibrantes em botões, abas e calendário.
+- **Tipografia:** limpa e legível; fonte monoespaçada para números, distâncias e pace (`05:15 /km`).
+- **Exceção única de cor:** cores distintas apenas na **Aba de Gráficos**, exclusivamente para diferenciar séries/curvas ao comparar períodos (ex.: `Fev/2026` vs. `Mar/2026`, `2026` vs. `2027`).
+
+---
+
+## 5. Autenticação
+
+- Exigir login antes de exibir ou editar dados.
+- **Credenciais iniciais:** usuário `jambrosio`, senha `2454`.
+- **Implementação:**
+  - Com Supabase: login via Auth real.
+  - Com 100% estático: **não** deixar a senha em texto puro no código-fonte. Validar comparando o hash **SHA-256** da entrada com o hash pré-calculado. Manter sessão em `sessionStorage`/`localStorage` com botão de **Logout**.
+  - Hash SHA-256 de `2454` (calculado em 2026-11-27 com `printf '2454' | sha256sum`): `6ee1f58e7b08b04e58109a89bc575651338419dc646b9d660ff95f81ec594299`.
+
+---
+
+## 6. Funcionalidades e Abas
+
+### Recurso Global: Gestão de Tênis
+- Acessível globalmente (cabeçalho ou modal/drawer rápido).
+- Cadastrar novos tênis (nome/modelo).
+- Definir um tênis como **padrão (ativo)**.
+- Arquivar tênis antigos.
+- Exibir **quilometragem acumulada (km)** automaticamente, somando distâncias das corridas vinculadas a ele.
+
+### Aba 1: Calendário de Treinos
+- Exibição mensal dinâmica, iniciando na data atual do sistema e avançando indefinidamente.
+- Ao clicar em um dia: formulário para **registrar/editar/excluir** um Treino com tipo:
+  1. **Corrida**
+     - `Distância` em km, decimais aceitos (ex.: `8.5`)
+     - `Pace` em `mm:ss` por km (ex.: `05:10`)
+     - `Tênis` pré-selecionado com o ativo, podendo ser alterado
+  2. **Tiros**
+     - `Distância` em km ou metros (deixar unidade clara no campo)
+     - `Tênis` opcional/padrão ativo para contabilizar desgaste
+  3. **Calistenia**
+     - Sem campos adicionais (apenas marcação do treino no dia)
+- Indicadores visuais discretos (monocromáticos/ícones simples) nos dias com treino.
+
+### Aba 2: Gráficos (somente Corrida)
+- **Filtro obrigatório:** considerar **apenas** registros do tipo `Corrida` (ignorar `Tiros` e `Calistenia`).
+- **Dois gráficos independentes:**
+  1. **Pace** (`mm:ss/km`) — tooltips e eixo Y formatados como tempo (`05:20`), **nunca** decimal puro.
+  2. **Distância** (`km`).
+- **Regra crítica — gráficos contínuos sem gaps:**
+  - O usuário corre apenas de segunda a sexta (e pode faltar).
+  - **NÃO** usar eixo X temporal com dias vazios (gera quebras na linha).
+  - Plotar apenas dias com corrida registrada, em sequência contínua (eixo categórico por ordem das corridas; data exata no tooltip).
+- **Filtros e comparação:**
+  - Visualizar por **Mês específico** (ex.: `Fev/2026`) ou **Ano inteiro** (ex.: `2027`).
+  - Selecionar **2 ou mais períodos simultaneamente** (ex.: `Fev/2026` vs. `Mar/2026`, `2026` vs. `2027`) no mesmo gráfico, com cor distinta e legenda clara por curva.
+  - Na comparação, alinhar curvas por sequência de corridas (1ª, 2ª, ...) para manter continuidade sem gaps.
+
+### Aba 3: Corridas Oficiais
+- Lista + formulário com campos obrigatórios:
+  - `Nome da prova`
+  - `Data`
+  - `Distância` (km)
+  - `Pace` (`mm:ss`)
+- Features adicionais (visual limpo E-Ink):
+  - Cálculo automático do **Tempo Total estimado** = `Distância × Pace`.
+  - Destaque discreto de **Recorde Pessoal (RP)** para distâncias clássicas: 5 km, 10 km, 21,1 km, 42,2 km.
+  - Seleção opcional do tênis usado na prova (soma na quilometragem do tênis).
+
+---
+
+## 7. Modelo de Dados Sugerido
+
+```json
+{
+  "shoes": [
+    { "id": "uuid", "name": "Olympikus Corre 3", "active": true, "archived": false }
+  ],
+  "workouts": [
+    {
+      "id": "uuid",
+      "date": "2026-11-27",
+      "type": "corrida | tiros | calistenia",
+      "distanceKm": 10.0,
+      "paceSeconds": 315,
+      "shoeId": "uuid"
+    }
+  ],
+  "officialRaces": [
+    {
+      "id": "uuid",
+      "name": "Meia Maratona de Curitiba",
+      "date": "2026-11-15",
+      "distanceKm": 21.1,
+      "paceSeconds": 310,
+      "shoeId": "uuid"
+    }
+  ]
+}
+```
+
+> **Nota técnica:** armazenar `pace` internamente em **segundos inteiros** (`paceSeconds`, ex.: `05:15` = `315`) para facilitar cálculos, médias e plotagem. Converter para `mm:ss` apenas na interface.
+
+---
+
+## 8. Git, Commits e Deploy
+
+- Usar token/CLI do GitHub já configurado na máquina para criar o repositório remoto (se não existir) e configurar GitHub Pages.
+- **Commits incrementais obrigatórios — NUNCA um commit gigante único.** Commits pequenos, frequentes, organizados por funcionalidade/etapa, padrão Conventional Commits (`feat:`, `fix:`, `style:`, `chore:`).
+- Ordem sugerida:
+  1. `chore: setup inicial do projeto e configuração do GitHub Pages`
+  2. `style: estrutura base e tema visual estilo Kindle (E-Ink)`
+  3. `feat: tela de login e controle de sessão`
+  4. `feat: gestão global de tênis e cálculo de quilometragem`
+  5. `feat: aba de calendário dinâmico e registro de treinos`
+  6. `feat: aba de gráficos contínuos (pace e distância) com comparação de períodos`
+  7. `feat: aba de corridas oficiais com tempo total e RP`
+  8. `chore: validação de build de produção e ajustes finais de responsividade`
+- Fazer `git push` progressivamente ao concluir marcos ou validar blocos de commits.
+- Antes do deploy final: validar build de produção sem erros e testar responsividade (desktop e mobile).
+
+---
+
+## 9. Checklist de Progresso
+
+### Pendente (estado inicial)
+- [ ] Decidir Opção A (Supabase) ou Opção B (estático + JSON). Verificar credenciais BaaS na máquina.
+- [ ] `chore: setup inicial do projeto e configuração do GitHub Pages`
+  - [ ] `git init`, `.gitignore`, criar repo remoto via `gh`, configurar Pages
+- [ ] `style: estrutura base e tema visual estilo Kindle (E-Ink)`
+- [ ] `feat: tela de login e controle de sessão` (calcular hash SHA-256 real de `2454`)
+- [ ] `feat: gestão global de tênis e cálculo de quilometragem`
+- [ ] `feat: aba de calendário dinâmico e registro de treinos`
+- [ ] `feat: aba de gráficos contínuos (pace e distância) com comparação de períodos`
+- [ ] `feat: aba de corridas oficiais com tempo total e RP`
+- [ ] `chore: validação de build de produção e ajustes finais de responsividade`
+- [ ] Exportar/Importar backup JSON (obrigatório se Opção B)
+
+### Convenções a seguir
+- Definir e documentar aqui os comandos de lint/typecheck/test assim que o stack for escolhido.
+- Sempre rodar lint, typecheck e build antes de marcar um item como concluído.
+- Nunca fazer commit sem solicitação explícita do usuário (regra global da sessão); quando solicitado, seguir a ordem de commits acima.
+
+---
+
+## 10. Instruções para Retomada
+
+1. Ler `AGENTS.md` e este `history.md`.
+2. Verificar `git status` e a lista de arquivos para confirmar o ponto exato de parada.
+3. Atualizar o checklist da seção 9 com o que foi feito.
+4. Manter este arquivo atualizado a cada marco concluído.
+5. Em caso de dúvida sobre arquitetura, seguir a regra da seção 3 (priorizar Supabase se houver credenciais; senão estático).
